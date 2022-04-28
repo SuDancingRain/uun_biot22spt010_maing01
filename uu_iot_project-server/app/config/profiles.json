@@ -1,0 +1,70 @@
+{
+  "{asid}": {
+    "profileList": ["AsidAuthorities","AsidExecutives","AsidLicenseOwner","Public"],
+    "useCaseMap": {}
+  },
+  "*": {
+    "profileList": ["Authorities","Executives","Readers","AwidLicenseOwner","Public"],
+    "useCaseMap": {
+      "sys/uuAppWorkspace/init": {
+        "sysStateList": ["created"],
+        "profileList": ["AwidLicenseOwner"]
+      },
+      "defaultUve": {
+        "profileList": ["Public"]
+      },
+      "sys/uuAppWorkspace/initUve": {
+        "sysStateList": ["created"],
+        "profileList": ["Public","AwidLicenseOwner"]
+      },
+      "weatherStation/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "weatherStation/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "weatherStation/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","Readers"]
+      },
+      "weatherStation/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","Readers"]
+      },
+      "user/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "user/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "user/list": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "user/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "weatherStation/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "user/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
+      },
+      "data/view": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","Readers"]
+      },
+      "data/get": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","Readers"]
+      }
+    }
+  }
+}

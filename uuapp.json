@@ -1,0 +1,19 @@
+{
+  "product": "uun_biot22spt010_maing01",
+  "version": "0.1.0",
+  "license": "License Commercial",
+  "description": {
+    "en": "",
+    "cs": ""
+  },
+  "devkit": {
+    "development": {
+      "appBoxLocationUri": "ues:UCL-BT:OPR.RSP/APPBOXES",
+      "uuCloudBaseUri": "https://sys-eu-c-3.plus4u.net",
+      "uuCloudLogStorageBaseUri": "https://cmd-eu-c-3.plus4u.net/118500965363973101/",
+      "appDeploymentUri": "ues:UCL-BT[118500965363973101]:UUN_STUDENTS03_AWE[61797a92a1342b81b8058028]:UUN.BOT22SPT010.MAING01[626675a2a1342b43ca0590b2]"
+    }
+  },
+  "uu_iot_project-hi": {},
+  "uu_iot_project-server": {}
+}

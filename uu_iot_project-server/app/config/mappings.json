@@ -1,0 +1,81 @@
+{
+  "{vendor}-{uuApp}-{uuSubApp}": {
+    "useCaseMap": {
+      "sys/uuAppWorkspace/init": {
+        "realization": "api/controllers/IotProjectController.init",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "defaultUve": {
+        "realization": "index.html",
+        "httpMethod": "GET",
+        "type": "UVE"
+      },
+      "sys/uuAppWorkspace/initUve": {
+        "realization": "index.html",
+        "httpMethod": "GET",
+        "type": "UVE"
+      },
+      "weatherStation/create": {
+        "realization": "api/controllers/WeatherStationController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "weatherStation/delete": {
+        "realization": "api/controllers/WeatherStationController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "weatherStation/list": {
+        "realization": "api/controllers/WeatherStationController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "weatherStation/get": {
+        "realization": "api/controllers/WeatherStationController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "user/create": {
+        "realization": "api/controllers/UserController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "user/delete": {
+        "realization": "api/controllers/UserController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "user/list": {
+        "realization": "api/controllers/UserController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "user/get": {
+        "realization": "api/controllers/UserController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "weatherStation/update": {
+        "realization": "api/controllers/WeatherStationController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "user/update": {
+        "realization": "api/controllers/UserController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "data/view": {
+        "realization": "api/controllers/DataController.view",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "data/get": {
+        "realization": "api/controllers/DataController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      }
+    }
+  }
+}
