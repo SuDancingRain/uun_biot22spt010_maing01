@@ -1,24 +1,32 @@
 const Lsi = {
   appName: {
-    cs: "Aplikace uuTestapp",
-    en: "Application uuTestapp",
+    cs: "Aplikace uuMeteoApp",
+    en: "Application uuMeteoApp",
   },
 
   menu: {
     home: {
-      cs: "Vítejte",
-      en: "Welcome",
+      cs: "Domů",
+      en: "Home",
     },
     about: {
       cs: "O aplikaci",
       en: "About Application",
+    },  
+     archive: {
+      cs: "Archiv",
+      en: "Archive"
+    },
+    user: {
+      cs: "Uživatelé",
+      en: "Users"
     },
   },
 
   about: {
     header: {
-      cs: "O aplikaci uuTestapp",
-      en: "About application uuTestapp",
+      cs: "O aplikaci uuMeteoApp",
+      en: "About application uuMeteoApp",
     },
     creatorsHeader: {
       cs: "Tvůrci aplikace",

@@ -45,6 +45,76 @@ const Calls = {
   getCommandUri(useCase) {
     return CALLS_BASE_URI + useCase.replace(/^\/+/, "");
   },
+
+  WeatherStation: {
+
+    create(dtoIn) {
+      let commandUri = Calls.getCommandUri("weatherStation/create");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    delete(dtoIn) {
+      let commandUri = Calls.getCommandUri("weatherStation/delete");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    update(dtoIn) {
+      let commandUri = Calls.getCommandUri("weatherStation/update");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    get(dtoIn) {
+      let commandUri = Calls.getCommandUri("weatherStation/get");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+
+    list(dtoIn) {
+      let commandUri = Calls.getCommandUri("weatherStation/list");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+  },
+
+  Data: {
+
+    get(dtoIn) {
+      let commandUri = Calls.getCommandUri("data/get");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+
+    view(dtoIn) {
+      let commandUri = Calls.getCommandUri("data/view");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+  },
+
+  User: {
+
+    create(dtoIn) {
+      let commandUri = Calls.getCommandUri("user/create");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    delete(dtoIn) {
+      let commandUri = Calls.getCommandUri("user/delete");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    update(dtoIn) {
+      let commandUri = Calls.getCommandUri("user/update");
+      return Calls.call("post", commandUri, dtoIn);
+    },
+
+    get(dtoIn) {
+      let commandUri = Calls.getCommandUri("user/get");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+
+    list(dtoIn) {
+      let commandUri = Calls.getCommandUri("user/list");
+      return Calls.call("get", commandUri, dtoIn);
+    },
+  },
+
 };
 
 export default Calls;

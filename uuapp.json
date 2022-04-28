@@ -14,6 +14,25 @@
       "appDeploymentUri": "ues:UCL-BT[118500965363973101]:UUN_STUDENTS03_AWE[61797a92a1342b81b8058028]:UUN.BOT22SPT010.MAING01[626675a2a1342b43ca0590b2]"
     }
   },
-  "uu_iot_project-hi": {},
+  "uu_iot_project-hi": {
+    "componentList": [
+      {
+        "code": "UuIotProject.Routes.WeatherStation.Create",
+        "name": "Create",
+        "tagList": [
+          "UuIotProject",
+          "Routes",
+          "WeatherStation",
+          "Create"
+        ],
+        "docCode": "UuIotProjectRoutesWeatherStationCreate",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UuIotProject.Routes.WeatherStation.Create />"
+      }
+    ]
+  },
   "uu_iot_project-server": {}
 }
