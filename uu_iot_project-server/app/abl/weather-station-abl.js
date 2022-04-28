@@ -64,14 +64,6 @@ class WeatherStationAbl {
       throw new Errors.Update.WeatherStationDoesNotExist({ uuAppErrorMap }, { weatherStationId: dtoIn.id });
     }
 
-    //Checks for an existence of a weatherStation with a same name
-    let name = dtoIn.name;
-    let wSNameValid = await this.dao.getByName(awid, name);
-
-    if (wSNameValid) {
-      throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: name });
-    }
-
     //Checks for an existence of a weatherStation with a same code
     let code = dtoIn.code;
     let wSCodeValid = await this.dao.getByCode(awid, code);
@@ -82,14 +74,7 @@ class WeatherStationAbl {
 
     //attempts to update a new Dao record
 
-    try {
-      dtoOut = await this.dao.update(dtoIn);
-    } catch (e) {
-      if (e instanceof ObjectStoreError) {
-        throw new Errors.Update.WeatherStationDaoUpdateFailed({ uuAppErrorMap }, e);
-      }
-      throw e;
-    }
+    dtoOut = await this.dao.update(dtoIn);
 
     //returns dtoOut with ErrorMap
 
@@ -130,16 +115,8 @@ class WeatherStationAbl {
 
     //Acquires Dao Record 
 
-    try {
-      dtoOut = await this.dao.get(awid, dtoIn.id);
-    } catch (e) {
+    dtoOut = await this.dao.get(awid, dtoIn.id);
 
-      if (e instanceof ObjectStoreError) {
-
-        throw new Errors.Get.WeatherStationDaoGetFailed({ uuAppErrorMap }, e);
-      }
-      throw e;
-    }
     //returns dtoOut with ErrorMap
 
     dtoOut.uuAppErrorMap = uuAppErrorMap;
@@ -151,7 +128,7 @@ class WeatherStationAbl {
 
     //Checks the input of DtoIn and for unsuported keys
 
-    let validationResult = this.validator.validate("weatherStationListGetDtoInType", dtoIn);
+    let validationResult = this.validator.validate("weatherStationListDtoInType", dtoIn);
 
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -177,16 +154,7 @@ class WeatherStationAbl {
 
     //attemps to create a list out of Dao File
 
-    try {
-      dtoOut = await this.dao.list(awid, dtoIn.order, dtoIn.pageInfo);
-    } catch (e) {
-
-      if (e instanceof ObjectStoreError) {
-
-        throw new Errors.List.WeatherStationDaoListFailed({ uuAppErrorMap }, e);
-      }
-      throw e;
-    }
+    dtoOut = await this.dao.listForAdmin(awid, dtoIn.order, dtoIn.pageInfo);
 
     //returns dtoOut with ErrorMap
 
@@ -261,14 +229,6 @@ class WeatherStationAbl {
     //Sets up a dtoOut
 
     let dtoOut;
-
-    //Checks for an existence of a weatherStation with a same name
-    let name = dtoIn.name;
-    let wSDb = await this.dao.getByName(awid, name);
-
-    if (wSDb) {
-      throw new Errors.Create.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: name });
-    }
 
     //Checks for an existence of a weatherStation with a same code
     let code = dtoIn.code;

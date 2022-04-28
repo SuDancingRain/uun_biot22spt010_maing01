@@ -92,17 +92,7 @@ class DataAbl {
 
     //attemps to create a list out of Dao File
 
-    try {
-      dtoOut = await this.dao.view(awid, dtoIn.order, dtoIn.pageInfo);
-    } catch (e) {
-
-      if (e instanceof ObjectStoreError) {
-
-        throw new Errors.View.DataDaoViewFailed({ uuAppErrorMap }, e);
-      }
-      throw e;
-    }
-
+    dtoOut = await this.dao.view(awid, dtoIn.order, dtoIn.pageInfo);
 
     //returns dtoOut with ErrorMap
 

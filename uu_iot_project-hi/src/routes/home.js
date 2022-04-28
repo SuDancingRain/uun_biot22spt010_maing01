@@ -1,26 +1,23 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, Lsi } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useState, useDataList, Lsi } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import { withRoute } from "uu_plus4u5g02-app";
+import Uu5Tiles from "uu5tilesg02";
 
 import Config from "./config/config.js";
-import LSI from "../config/lsi.js";
-import WelcomeRow from "../bricks/welcome-row.js";
+import LSI from "./home-lsi";
+import Calls from "../calls";
 import RouteBar from "../core/route-bar.js";
+import WeatherStationForm from "../bricks/weather-station-form.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
+const nestingLevel = "bigBoxCollection"
+
 //@@viewOff:constants
 
 //@@viewOn:css
-const Css = {
-  icon: () =>
-    Config.Css.css({
-      fontSize: 48,
-      lineHeight: "1em",
-    }),
-};
 //@@viewOff:css
 
 //@@viewOn:helpers
@@ -29,6 +26,7 @@ const Css = {
 let Home = createVisualComponent({
   //@@viewOn:statics
   uu5Tag: Config.TAG + "Home",
+  ...nestingLevel,
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -42,43 +40,134 @@ let Home = createVisualComponent({
   render(props) {
     //@@viewOn:private
     const { identity } = useSession();
+
+    const [selectedWeatherStation, setSelectedWeatherStation] = useState(null);
+    const [weatherStationToDelete, setWeatherStationToDelete] = useState(null);
+
+    const weatherStationListData = useDataList({
+      handlerMap: {
+        load: Calls.WeatherStation.list,
+        createItem: Calls.WeatherStation.create,
+      },
+      itemHandlerMap: {
+        update: Calls.WeatherStation.update,
+        delete: Calls.WeatherStation.delete,
+      },
+      initialDtoIn: {},
+    });
+
     //@@viewOff:private
 
     //@@viewOn:interface
+
+    function handleCreateWeatherStation(newWeatherStationData) {
+      return weatherStationListData.handlerMap.createItem(newWeatherStationData);
+    }
+
+    function handleUpdateWeatherStation(updatedWeatherStationData) {
+      return selectedWeatherStation.handlerMap.update(updatedWeatherStationData);
+    }
+
+    async function handleWeatherStationDelete() {
+      await weatherStationToDelete.handlerMap.delete({ id: weatherStationToDelete.data.id });
+      setWeatherStationToDelete(null);
+      window.location.reload();
+    }
+
     //@@viewOff:interface
 
     //@@viewOn:render
     const attrs = Utils.VisualComponent.getAttrs(props);
-    return (
+    const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, nestingLevel);
+
+    function getCollumns() {
+      return [
+        {
+          header: <UU5.Bricks.Lsi lsi={LSI.name} />,
+          sorterKey: "nameAsc",
+          cell: (cellProps) => cellProps.data.data.name,
+
+        },
+        {
+          cell: (cellProps) => {
+            if (cellProps.data.state.includes("pending")) {
+              return <UU5.Bricks.Loading />
+            } else {
+              return (
+                <>
+                  <UU5.Bricks.Button
+                    colorSchema="blue"
+                    onClick={() => setSelectedWeatherStation(cellProps.data)}
+                  >
+                    <UU5.Bricks.Icon icon="mdi-pencil" />
+                  </UU5.Bricks.Button>
+                  <UU5.Bricks.Button
+                    colorSchema="red"
+                    onClick={() => setWeatherStationToDelete(cellProps.data)}
+                  >
+                    <UU5.Bricks.Icon
+                      icon="mdi-close"
+                    />
+                  </UU5.Bricks.Button>
+                </>
+              );
+            }
+          },
+        },
+      ];
+    }
+
+    return currentNestingLevel ? (
       <div {...attrs}>
         <RouteBar />
-        <WelcomeRow left={<Plus4U5Elements.PersonPhoto size="xl" borderRadius="none" />}>
-          <Uu5Elements.Text category="story" segment="heading" type="h2">
-            <Lsi lsi={LSI.auth.welcome} />
-          </Uu5Elements.Text>
-          {identity && (
-            <Uu5Elements.Text category="story" segment="heading" type="h2">
-              {identity.name}
-            </Uu5Elements.Text>
-          )}
-        </WelcomeRow>
-        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-human-greeting" className={Css.icon()} />}>
-          <Uu5Elements.Text category="story" segment="body" type="common">
-            <Lsi lsi={LSI.auth.intro} />
-          </Uu5Elements.Text>
-        </WelcomeRow>
-        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-monitor" className={Css.icon()} />}>
-          <Uu5Elements.Text category="story" segment="body" type="common">
-            <Lsi lsi={LSI.auth.clientSide} />
-          </Uu5Elements.Text>
-        </WelcomeRow>
-        <WelcomeRow left={<Uu5Elements.Icon icon="mdi-server" className={Css.icon()} />}>
-          <Uu5Elements.Text category="story" segment="body" type="common">
-            <Lsi lsi={LSI.auth.serverSide} />
-          </Uu5Elements.Text>
-        </WelcomeRow>
+        {
+          selectedWeatherStation && (
+            <UU5.Bricks.Modal
+              header={<UU5.Bricks.Lsi lsi={props.selectedWeatherStation?.id ? LSI.updateWeatherStation : LSI.createWeatherStation} />}
+              shown={!!selectedWeatherStation}
+              onClose={() => setSelectedWeatherStation(null)}
+            >
+              <WeatherStationForm
+                selectedWeatherStation={selectedWeatherStation.data}
+                setSelectedWeatherStation={setSelectedWeatherStation}
+                handleCreateWeatherStation={handleCreateWeatherStation}
+                handleUpdateWeatherStation={handleUpdateWeatherStation}
+              />
+            </UU5.Bricks.Modal>
+          )
+        }
+
+        {weatherStationToDelete && (
+          <UU5.Bricks.Modal
+            header={"Confirm WeatherStation Deletion"}
+            shown={true}
+            onClose={() => setWeatherStationToDelete(null)}
+          >
+            <div className={"center uu5-common-padding-s"}>
+              <UU5.Bricks.Button onClick={() => setWeatherStationToDelete(null)}>
+                Refuse
+              </UU5.Bricks.Button>
+              {""}
+              <UU5.Bricks.Button colorSchema={"red"} onClick={handleWeatherStationDelete}>
+                Confirm
+              </UU5.Bricks.Button>
+            </div>
+          </UU5.Bricks.Modal>
+        )
+        }
+
+
+        <UU5.Bricks.Container>
+          <Uu5Tiles.ControllerProvider data={weatherStationListData.data || []}>
+            <UU5.Bricks.Button colorSchema={"green"} onClick={() => setSelectedWeatherStation({ data: {} })}>
+              <UU5.Bricks.Icon icon={"mdi-plus"} />
+              <UU5.Bricks.Lsi lsi={LSI.create} />
+            </UU5.Bricks.Button>
+            <Uu5Tiles.List columns={getCollumns()} rowAlignment="center" rowHeight={150} />
+          </Uu5Tiles.ControllerProvider>
+        </UU5.Bricks.Container>
       </div>
-    );
+    ) : null;
     //@@viewOff:render
   },
 });

@@ -65,13 +65,6 @@ const List = {
       this.message = "DtoIn is not valid.";
     }
   },
-  WeatherStationDaoListFailed: class extends IotProjectUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${List.UC_CODE}weatherStationDaoListFailed`;
-      this.message = "Failed to list WeatherStation.";
-    }
-  },
 };
 
 const Get = {
@@ -89,13 +82,6 @@ const Get = {
       super(...arguments);
       this.code = `${Get.UC_CODE}weatherStationDoesNotExist`;
       this.message = "WeatherStation does not exist.";
-    }
-  },
-  WeatherStationDaoGetFailed: class extends IotProjectUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${Get.UC_CODE}weatherStationDaoGetFailed`;
-      this.message = "Failed to get WeatherStation.";
     }
   },
 };

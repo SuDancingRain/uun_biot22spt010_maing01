@@ -13,13 +13,6 @@ const View = {
       this.message = "DtoIn is not valid.";
     }
   },
-  DataDaoViewFailed: class extends IotProjectUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${View.UC_CODE}dataDaoViewFailed`;
-      this.message = "Failed to view Data.";
-    }
-  },
 };
 
 const Get = {

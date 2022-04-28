@@ -65,13 +65,6 @@ const List = {
       this.message = "DtoIn is not valid.";
     }
   },
-  UserDaoListFailed: class extends IotProjectUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${List.UC_CODE}userDaoListFailed`;
-      this.message = "Failed to list User.";
-    }
-  },
 };
 
 const Get = {
@@ -89,13 +82,6 @@ const Get = {
       super(...arguments);
       this.code = `${Get.UC_CODE}userDoesNotExist`;
       this.message = "User does not exist.";
-    }
-  },
-  UserDaoGetFailed: class extends IotProjectUseCaseError {
-    constructor() {
-      super(...arguments);
-      this.code = `${Get.UC_CODE}userDaoGetFailed`;
-      this.message = "Failed to get User.";
     }
   },
 };

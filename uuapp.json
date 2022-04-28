@@ -31,6 +31,22 @@
         "imageUri": "",
         "uuEccReady": false,
         "template": "<UuIotProject.Routes.WeatherStation.Create />"
+      },
+      {
+        "code": "UuIotProject.Routes.WeatherStation.List",
+        "name": "List",
+        "tagList": [
+          "UuIotProject",
+          "Routes",
+          "WeatherStation",
+          "List"
+        ],
+        "docCode": "UuIotProjectRoutesWeatherStationList",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UuIotProject.Routes.WeatherStation.List />"
       }
     ]
   },
