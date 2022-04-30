@@ -64,13 +64,25 @@ class WeatherStationAbl {
       throw new Errors.Update.WeatherStationDoesNotExist({ uuAppErrorMap }, { weatherStationId: dtoIn.id });
     }
 
+        //Checks for an existence of a weatherStation with a same code
+        let name = dtoIn.name;
+        let wSNameValid = await this.dao.getByName(awid, name);
+    
+        if (wSNameValid) {
+          if(dtoIn.id != wSNameValid.id){
+          throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: name });
+        }
+      }
+
     //Checks for an existence of a weatherStation with a same code
     let code = dtoIn.code;
     let wSCodeValid = await this.dao.getByCode(awid, code);
 
     if (wSCodeValid) {
+      if(dtoIn.id != wSCodeValid.id){
       throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: code });
     }
+  }
 
     //attempts to update a new Dao record
 
@@ -167,7 +179,7 @@ class WeatherStationAbl {
 
     //Checks the input of DtoIn and for unsuported keys
 
-    let validationResult = this.validator.validate("weatherStationDeleteGetDtoInType", dtoIn);
+    let validationResult = this.validator.validate("weatherStationDeleteDtoInType", dtoIn);
 
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -229,6 +241,15 @@ class WeatherStationAbl {
     //Sets up a dtoOut
 
     let dtoOut;
+
+
+    //Checks for an existence of a weatherStation with a same name
+    let name = dtoIn.name;
+    let wSNameValid = await this.dao.getByName(awid, name);
+
+    if (wSNameValid) {
+      throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: name });
+    }
 
     //Checks for an existence of a weatherStation with a same code
     let code = dtoIn.code;
