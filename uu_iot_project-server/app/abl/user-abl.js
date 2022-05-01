@@ -74,7 +74,9 @@ class UserAbl {
     //Checks for existence of specified user
 
     if (uuIdentity) {
-      throw new Errors.Update.UserAlreadyExists({ uuAppErrorMap }, { uuIdentity: dtoIn.uuIdentity });
+      if (uuIdentity.id != dtoIn.id) {
+        throw new Errors.Update.UserAlreadyExists({ uuAppErrorMap }, { uuIdentity: dtoIn.uuIdentity });
+      }
     }
     //Attemps to change the dao record
 
@@ -150,7 +152,7 @@ class UserAbl {
 
     //Checks the input of DtoIn and for unsuported keys
 
-    let validationResult = this.validator.validate("userListGetDtoInType", dtoIn);
+    let validationResult = this.validator.validate("userListDtoInType", dtoIn);
 
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
@@ -198,7 +200,7 @@ class UserAbl {
 
     //Checks the input of DtoIn and for unsuported keys
 
-    let validationResult = this.validator.validate("userDeleteGetDtoInType", dtoIn);
+    let validationResult = this.validator.validate("userDeleteDtoInType", dtoIn);
 
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
