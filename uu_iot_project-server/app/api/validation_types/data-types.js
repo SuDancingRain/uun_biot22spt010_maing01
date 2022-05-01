@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 const dataViewDtoInType = shape({
-  weatherStationId: id().isRequired(),
+  weatherStationCode: uu5String(10).isRequired(),
   order: oneOf(["asc", "desc"]),
   pageInfo: shape({
     pageIndex: integer(),
@@ -11,7 +11,7 @@ const dataViewDtoInType = shape({
 
 const dataGetDtoInType = shape({
   id: id().isRequired(),
-  weatherStationId: id().isRequired(),
+  weatherStationCode: uu5String(10).isRequired(),
   startDate: date().isRequired(),
   endDate: date().isRequired(),
 });

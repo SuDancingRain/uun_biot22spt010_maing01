@@ -1,10 +1,14 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, PropTypes, useScreenSize } from "uu5g05";
+import UU5 from "uu5g04";
+import { Utils, createVisualComponent, useDataObject, useState, useDataList } from "uu5g05";
 
 import Config from "./config/config.js";
+import Calls from "../calls.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
+const nestingLevel= "bigBoxCollection"
 //@@viewOff:constants
 
 //@@viewOn:css
@@ -19,7 +23,9 @@ const WeatherStation = createVisualComponent({
   //@@viewOff:statics
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    WeatherStationId: UU5.PropTypes.string,
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps

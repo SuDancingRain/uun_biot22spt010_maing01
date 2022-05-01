@@ -24,6 +24,7 @@ class DataAbl {
   constructor() {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("data");
+    this.weatherStationDao = DaoFactory.getDao("weatherStation")
   }
 
   async get(awid, dtoIn) {
@@ -92,7 +93,7 @@ class DataAbl {
 
     //attemps to create a list out of Dao File
 
-    dtoOut = await this.dao.view(awid, dtoIn.order, dtoIn.pageInfo);
+    dtoOut = await this.dao.view(awid, weatherStationCode, dtoIn.order, dtoIn.pageInfo);
 
     //returns dtoOut with ErrorMap
 

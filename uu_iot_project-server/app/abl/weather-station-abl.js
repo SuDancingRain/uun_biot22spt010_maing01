@@ -64,25 +64,25 @@ class WeatherStationAbl {
       throw new Errors.Update.WeatherStationDoesNotExist({ uuAppErrorMap }, { weatherStationId: dtoIn.id });
     }
 
-        //Checks for an existence of a weatherStation with a same code
-        let name = dtoIn.name;
-        let wSNameValid = await this.dao.getByName(awid, name);
-    
-        if (wSNameValid) {
-          if(dtoIn.id != wSNameValid.id){
-          throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: name });
-        }
+    //Checks for an existence of a weatherStation with a same code
+    let name = dtoIn.name;
+    let wSNameValid = await this.dao.getByName(awid, name);
+
+    if (wSNameValid) {
+      if (dtoIn.id != wSNameValid.id) {
+        throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: name });
       }
+    }
 
     //Checks for an existence of a weatherStation with a same code
     let code = dtoIn.code;
     let wSCodeValid = await this.dao.getByCode(awid, code);
 
     if (wSCodeValid) {
-      if(dtoIn.id != wSCodeValid.id){
-      throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: code });
+      if (dtoIn.id != wSCodeValid.id) {
+        throw new Errors.Update.WeatherStationAlreadyExists({ uuAppErrorMap }, { code: code });
+      }
     }
-  }
 
     //attempts to update a new Dao record
 
@@ -205,14 +205,8 @@ class WeatherStationAbl {
     }
 
     //attemps to delete record
-    try {
-      dtoOut = await this.dao.delete(awid, dtoIn.id);
-    } catch (e) {
-      if (e instanceof ObjectStoreError) {
-        throw new Errors.Delete.WeatherStationDaoDeleteFailed({ uuAppErrorMap }, e);
-      }
-      throw e;
-    }
+     await this.dao.delete(awid, dtoIn.id);
+
 
     //returns dtoOut with ErrorMap
 

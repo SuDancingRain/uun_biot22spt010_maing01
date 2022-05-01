@@ -11,13 +11,13 @@ class DataMongo extends UuObjectDao {
     return await super.findOne({ id, awid });
   }
 
-  async getByCode(awid, weatherStationId) {
-    return await super.findOne({ weatherStationId, awid });
+  async getByCode(awid, weatherStationCode) {
+    return await super.findOne({ weatherStationCode, awid });
   }
 
   //Will be deleted for testing purposes
-  async view(awid, order, pageInfo) {
-    const filter = { awid };
+  async view(awid, weatherStationCode,order, pageInfo) {
+    const filter = { awid , weatherStationCode};
     const sort = { date: order === "asc" ? 1 : -1 };
 
     return await super.find(filter, pageInfo, sort);
