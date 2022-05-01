@@ -34,7 +34,20 @@ const Get = {
   },
 };
 
+const Create = {
+  UC_CODE: `${DATA_ERROR_PREFIX}create/`,
+  
+  InvalidDtoIn: class extends IotProjectUseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${View.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+};
+
 module.exports = {
+  Create,
   Get,
   View
 };

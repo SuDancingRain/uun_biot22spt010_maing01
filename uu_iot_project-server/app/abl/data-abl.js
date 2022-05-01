@@ -12,6 +12,9 @@ const WARNINGS = {
   getUnsupportedKeys: {
     code: `${Errors.Get.UC_CODE}unsupportedKeys`
   },
+  createUnsupportedKeys: {
+    code: `${Errors.Create.UC_CODE}unsupportedKeys`
+  }
 };
 
 const DEFAULT = {
@@ -26,6 +29,42 @@ class DataAbl {
     this.dao = DaoFactory.getDao("data");
     this.weatherStationDao = DaoFactory.getDao("weatherStation")
   }
+
+  //FOR TESTING PURPOSES ONLY YOU FUCKING DUMBWIT FUCKAS
+  async create(awid, dtoIn) {
+
+    //Checks the input of DtoIn and for unsuported keys
+
+    let validationResult = this.validator.validate("dataCreateDtoInType", dtoIn);
+
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.createUnsupportedKeys.code,
+      Errors.Create.InvalidDtoIn
+    );
+
+    //Receives awid
+
+    dtoIn.awid = awid;
+
+    //Sets up a dtoOut
+
+    let dtoOut;
+
+    //attempts to create a new Dao record
+
+    dtoOut = await this.dao.create(dtoIn);
+
+
+    //returns dtoOut with ErrorMap
+
+    dtoOut.uuAppErrorMap = uuAppErrorMap;
+
+    return dtoOut;
+  }
+
+
 
   async get(awid, dtoIn) {
 
@@ -91,9 +130,10 @@ class DataAbl {
     if (!dtoIn.pageInfo.pageIndex) dtoIn.pageInfo.pageIndex = DEFAULT.pageIndex;
     if (!dtoIn.order) dtoIn.order = DEFAULT.order;
 
+
     //attemps to create a list out of Dao File
 
-    dtoOut = await this.dao.view(awid, weatherStationCode, dtoIn.order, dtoIn.pageInfo);
+    dtoOut = await this.dao.view(awid, dtoIn.weatherStationCode, dtoIn.order, dtoIn.pageInfo);
 
     //returns dtoOut with ErrorMap
 

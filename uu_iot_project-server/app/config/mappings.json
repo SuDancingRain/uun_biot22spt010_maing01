@@ -75,6 +75,11 @@
         "realization": "api/controllers/DataController.get",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "data/create": {
+        "realization": "api/controllers/DataController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

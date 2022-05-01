@@ -64,6 +64,10 @@
       "data/get": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Readers"]
+      },
+      "data/create": {
+        "sysStateList": ["active"],
+        "profileList": ["Public"]
       }
     }
   }

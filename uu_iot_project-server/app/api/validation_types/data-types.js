@@ -15,3 +15,10 @@ const dataGetDtoInType = shape({
   startDate: date().isRequired(),
   endDate: date().isRequired(),
 });
+const dataCreateDtoInType = shape({
+  
+  weatherStationCode: uu5String(10),
+  tempeture: uu5String(10),
+  humidity: uu5String(10),
+  date: datetime(),
+});

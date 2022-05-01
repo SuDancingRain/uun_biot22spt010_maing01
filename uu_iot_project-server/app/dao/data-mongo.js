@@ -7,6 +7,10 @@ class DataMongo extends UuObjectDao {
     await super.createIndex({ awid: 1 }, { unique: true });
   }
 
+  async create(uuObject) {
+    return await super.insertOne(uuObject);
+  }
+
   async get(awid, id) {
     return await super.findOne({ id, awid });
   }
