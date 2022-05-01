@@ -4,6 +4,7 @@ export default{
     createWeatherStation: { cs: "Přidat Meteo stanici", en: "Add Meteo Station" },
     updateWeatherStation: { cs: "Upravit Meteo stanici", en: "Update Meteo Station" },
     unsuccessful: { cs: "Nepodařilo se upravit Meteo stanici", en: "Failed to updated Meteo Station" },
+    
 
     name: { cs: "Jméno", en: "Name" },
     info: { cs: "Info", en: "Info" },

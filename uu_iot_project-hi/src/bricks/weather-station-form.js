@@ -64,12 +64,12 @@ const WeatherStationForm = createVisualComponent({
         const userAvailableTags = [];
         if (props.data) {
             props.data.forEach((user) => {
-                
-                    userAvailableTags.push({
-                        value: user.data.id,
-                        content: user.data.name,
-                    });
-                
+
+                userAvailableTags.push({
+                    value: user.data.id,
+                    content: user.data.name,
+                });
+
             });
         }
 
@@ -99,18 +99,18 @@ const WeatherStationForm = createVisualComponent({
         return currentNestingLevel ? (
             <div {...attrs}>
                 <Forms.Form
-                
-          labelColWidth={"xs-12 s-12 m-4 l-3 xl-3"}
-          valueColWidth={"xs-12 s-12 m-8 l-7 xl-7"}
+
+                    labelColWidth={"xs-12 s-12 m-4 l-3 xl-3"}
+                    valueColWidth={"xs-12 s-12 m-8 l-7 xl-7"}
                     onSave={handleOnSave}
                     onCancel={() => props.selectedWeatherStation(null)}
                 >
 
                     <Forms.Text
                         name={"name"}
-
                         label={<UU5.Bricks.Lsi lsi={Lsi.name} />}
                         value={props.selectedWeatherStation?.name || ""}
+                        required={true}
                     />
 
                     <Forms.Text
@@ -123,7 +123,9 @@ const WeatherStationForm = createVisualComponent({
                     <Forms.Text
                         name={"code"}
                         label={<UU5.Bricks.Lsi lsi={Lsi.code} />}
-
+                        required={true}
+                        pattern="[A-Z0-9]"
+                        patternMessage="Code must be made up of only capitalized letters and numbers"
                         value={props.selectedWeatherStation?.code || ""}
                     />
 
@@ -132,7 +134,7 @@ const WeatherStationForm = createVisualComponent({
                         label={<UU5.Bricks.Lsi lsi={Lsi.userPool} />}
                         value={props.selectedWeatherStation?.supervisors || []}
                         availableTags={userAvailableTags}
-                        multiple={false}
+                        multiple={true}
                     />
 
                     <Forms.Controls

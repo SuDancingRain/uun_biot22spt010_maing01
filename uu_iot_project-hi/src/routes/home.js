@@ -1,12 +1,12 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, useState, useDataList, Lsi } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useState, useDataList} from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import { withRoute } from "uu_plus4u5g02-app";
 import Uu5Tiles from "uu5tilesg02";
 
 import Config from "./config/config.js";
-import LSI from "./home-lsi";
+import Lsi from "./home-lsi";
 import Calls from "../calls";
 import RouteBar from "../core/route-bar.js";
 import WeatherStationForm from "../bricks/weather-station-form.js";
@@ -83,9 +83,21 @@ let Home = createVisualComponent({
     function getCollumns() {
       return [
         {
-          header: <UU5.Bricks.Lsi lsi={LSI.name} />,
+          header: <UU5.Bricks.Lsi lsi={Lsi.name} />,
           sorterKey: "nameAsc",
           cell: (cellProps) => cellProps.data.data.name,
+
+        },
+        {
+          header: <UU5.Bricks.Lsi lsi={Lsi.info} />,
+          sorterKey: "nameAsc",
+          cell: (cellProps) => cellProps.data.data.info,
+
+        },
+        {
+          header: <UU5.Bricks.Lsi lsi={Lsi.code} />,
+          sorterKey: "nameAsc",
+          cell: (cellProps) => cellProps.data.data.code,
 
         },
         {
@@ -123,7 +135,7 @@ let Home = createVisualComponent({
         {
           selectedWeatherStation && (
             <UU5.Bricks.Modal
-              header={<UU5.Bricks.Lsi lsi={props.selectedWeatherStation?.id ? LSI.updateWeatherStation : LSI.createWeatherStation} />}
+              header={<UU5.Bricks.Lsi lsi={props.selectedWeatherStation?.id ? Lsi.updateWeatherStation : Lsi.createWeatherStation} />}
               shown={!!selectedWeatherStation}
               onClose={() => setSelectedWeatherStation(null)}
             >
@@ -148,11 +160,13 @@ let Home = createVisualComponent({
                 Refuse
               </UU5.Bricks.Button>
               {""}
-              <UU5.Bricks.Button colorSchema={"red"} onClick={handleWeatherStationDelete}>
+              <UU5.Bricks.Button colorSchema={"red"} onClick={handleWeatherStationDelete} >
                 Confirm
               </UU5.Bricks.Button>
+              
             </div>
           </UU5.Bricks.Modal>
+          
         )
         }
 
@@ -161,7 +175,7 @@ let Home = createVisualComponent({
           <Uu5Tiles.ControllerProvider data={weatherStationListData.data || []}>
             <UU5.Bricks.Button colorSchema={"green"} onClick={() => setSelectedWeatherStation({ data: {} })}>
               <UU5.Bricks.Icon icon={"mdi-plus"} />
-              <UU5.Bricks.Lsi lsi={LSI.create} />
+              <UU5.Bricks.Lsi lsi={Lsi.create} />
             </UU5.Bricks.Button>
             <Uu5Tiles.List columns={getCollumns()} rowAlignment="center" rowHeight={150} />
           </Uu5Tiles.ControllerProvider>

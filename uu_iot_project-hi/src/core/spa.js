@@ -10,10 +10,6 @@ import Home from "../routes/home.js";
 import Archive from "../routes/archive.js";
 import User from "../routes/user.js";
 
-import WeatherStationCreate from "../routes/weather-station/create.js";
-import WeatherStationList from "../routes/weather-station/list.js";
-
-import WeatherStationForm from "../bricks/weather-station-form.js";
 
 //@@viewOff:imports
 
@@ -30,10 +26,6 @@ const ROUTE_MAP = {
   archive: (props) => <Archive {...props} />,
   user: (props) => <User {...props} />,
 
-  weatherStationCreate: (props) => <WeatherStationCreate {...props} />,
-  weatherStationList: (props) => <WeatherStationList {...props} />,
-
-  weatherStationForm: (props) => <WeatherStationForm {...props} />, 
 
   "sys/uuAppWorkspace/initUve": (props) => <InitAppWorkspace {...props} />,
   controlPanel: (props) => <ControlPanel {...props} />,
