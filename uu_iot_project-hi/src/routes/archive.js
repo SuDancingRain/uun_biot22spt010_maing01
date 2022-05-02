@@ -8,6 +8,7 @@ import Config from "./config/config.js";
 import LSI from "../config/lsi.js";
 import WelcomeRow from "../bricks/welcome-row.js";
 import RouteBar from "../core/route-bar.js";
+import DataTile from "../bricks/data-tile.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -51,9 +52,7 @@ let Archive = createVisualComponent({
     return (
       <div {...attrs}>
         <RouteBar />
-        <Uu5Elements.Text category="story" segment="heading" type="h2">
-          <Lsi lsi={LSI.auth.welcome} />
-        </Uu5Elements.Text>
+        <DataTile />
       </div>
     );
     //@@viewOff:render
