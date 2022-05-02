@@ -1,6 +1,6 @@
 //@@viewOn:imports
 import UU5 from "uu5g04";
-import { Utils, createVisualComponent, useState, useDataList } from "uu5g05";
+import { Utils, createVisualComponent, useState, useDataList, useDataObject} from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import Uu5Tiles from "uu5tilesg02";
@@ -8,7 +8,7 @@ import Uu5Tiles from "uu5tilesg02";
 import Config from "../config/config";
 import Calls from "../calls";
 import Lsi from "./data-tile-lsi.js"
-import WeatherStationDataList from "./weatherStation-data-list";
+import WeatherStationForm from "./weather-station-form";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -21,77 +21,159 @@ const nestingLevel = "bigBoxCollection"
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-const DataTile = WeatherStationDataList(
-    createVisualComponent({
-        //@@viewOn:statics
-        uu5Tag: Config.TAG + "DataTile",
-        ...nestingLevel,
-        //@@viewOff:statics
+const DataTile = createVisualComponent({
+    //@@viewOn:statics
+    uu5Tag: Config.TAG + "DataTile",
+    ...nestingLevel,
+    //@@viewOff:statics
 
-        //@@viewOn:propTypes
-        propTypes: {},
-        //@@viewOff:propTypes
+    //@@viewOn:propTypes
+    propTypes: {},
+    //@@viewOff:propTypes
 
-        //@@viewOn:defaultProps
-        defaultProps: {},
-        //@@viewOff:defaultProps
+    //@@viewOn:defaultProps
+    defaultProps: {},
+    //@@viewOff:defaultProps
 
-        render(props) {
+    render(props) {
 
-            //@@viewOn:private
+        //@@viewOn:private
 
-            const dataListData = useDataList({
-                handlerMap: {
-                    load: Calls.Data.view
-                },
-                initialDtoIn: {},
-            });
+        const [selectedWeatherStation, setSelectedWeatherStation] = useState(null);
+        const [weatherStationToDelete, setWeatherStationToDelete] = useState(null);
 
-            //@@viewOff:private
 
-            //@@viewOn:interface
+        const weatherStationListData = useDataList({
+            handlerMap: {
+                load: Calls.WeatherStation.list
+            },
+            itemHandlerMap: {
+                update: Calls.WeatherStation.update,
+                delete: Calls.WeatherStation.delete
+            },
+            initialDtoIn: {},
+        })
 
-            //@@viewOff:interface
+        const dataListData = useDataList({
+            handlerMap: {
+                load: Calls.Data.view
+            },
+            initialDtoIn: {code: props.code} ,
+        });
 
-            //@@viewOn:render
+        const weatherStationData = useDataObject({
+            handlerMap:{
+                load: Calls.WeatherStation.get
+            },
+            initialDtoIn: {id: weatherStationListData.id}
+        })
 
-            const attrs = Utils.VisualComponent.getAttrs(props);
-            const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, nestingLevel)
-            return currentNestingLevel ? (
-                <div {...attrs}>
-                    <UU5.Bricks.Container>
+console.log(weatherStationListData);
+        //@@viewOff:private
+
+        //@@viewOn:interface
+        function handleUpdateWeatherStation(updatedWeatherStationData) {
+            return selectedWeatherStation.handlerMap.update(updatedWeatherStationData);
+        }
+
+        async function handleWeatherStationDelete() {
+            await weatherStationToDelete.handlerMap.delete({ id: weatherStationToDelete.data.id });
+            setWeatherStationToDelete(null);
+            window.location.reload();
+        }
+
+        //@@viewOff:interface
+
+        //@@viewOn:render
+
+        const attrs = Utils.VisualComponent.getAttrs(props);
+        const currentNestingLevel = Utils.NestingLevel.getNestingLevel(props, nestingLevel)
+        return currentNestingLevel ? (
+            <div {...attrs}>
+
+        {
+          selectedWeatherStation && (
+            <UU5.Bricks.Modal
+              header={<UU5.Bricks.Lsi lsi={props.selectedWeatherStation?.id ? Lsi.updateWeatherStation : Lsi.createWeatherStation} />}
+              shown={!!selectedWeatherStation}
+              onClose={() => setSelectedWeatherStation(null)}
+            >
+              <WeatherStationForm
+                selectedWeatherStation={selectedWeatherStation.data}
+                setSelectedWeatherStation={setSelectedWeatherStation}
+                handleUpdateWeatherStation={handleUpdateWeatherStation}
+              />
+            </UU5.Bricks.Modal>
+
+          )}
+
+                {weatherStationToDelete && (
+
+                    <UU5.Bricks.Modal
+                        header={"Confirm WeatherStation Deletion"}
+                        shown={true}
+                        onClose={() => setWeatherStationToDelete(null)}
+                    >
+                        <div className={"center uu5-common-padding-s"}>
+                            <UU5.Bricks.Button onClick={() => setWeatherStationToDelete(null)}>
+                                Refuse
+                            </UU5.Bricks.Button>
+                            {""}
+                            <UU5.Bricks.Button colorSchema={"red"} onClick={handleWeatherStationDelete} >
+                                Confirm
+                            </UU5.Bricks.Button>
+
+                        </div>
+                    </UU5.Bricks.Modal>
+
+                )}
+
+                <UU5.Bricks.Container>
                     <UU5.BlockLayout.Tile >
                         <UU5.BlockLayout.Block>
+
                             <UU5.BlockLayout.Row>
-                                <UU5.BlockLayout.Text icon="mdi-factory">
-                                    Company ({<UU5.Bricks.Icon icon="mdi-lock" />})
-                                </UU5.BlockLayout.Text>
+                                {weatherStationData.name}
                             </UU5.BlockLayout.Row>
+
                             <UU5.BlockLayout.Row>
                                 <UU5.Bricks.Link>
-                                    +5 (60) 400-168-258
+                                    {weatherStationData.code}
                                 </UU5.Bricks.Link>
                             </UU5.BlockLayout.Row>
+
                             <UU5.BlockLayout.Row>
-                                Here I am every time.
+                                {weatherStationData.info}
                             </UU5.BlockLayout.Row>
+
                             <UU5.BlockLayout.Row size="s">
-                                <UU5.Bricks.Link>
-                                    <UU5.BlockLayout.Text icon="mdi-map-marker">
-                                        Show on map
-                                    </UU5.BlockLayout.Text>
-                                </UU5.Bricks.Link> <UU5.BlockLayout.Text weight="secondary">50.107577, 14.453512</UU5.BlockLayout.Text>
+
+                                <UU5.Bricks.Button
+                                    colorSchema="blue"
+                                    onClick={() => setSelectedWeatherStation(weatherStationListData.data)}
+                                >
+                                    <UU5.Bricks.Icon icon="mdi-pencil" />
+                                </UU5.Bricks.Button>
+                                <UU5.Bricks.Button
+                                    colorSchema="red"
+                                    onClick={() => setWeatherStationToDelete(weatherStationListData.data)}
+                                >
+                                    <UU5.Bricks.Icon
+                                        icon="mdi-close"
+                                    />
+                                </UU5.Bricks.Button>
+
                             </UU5.BlockLayout.Row>
+
                         </UU5.BlockLayout.Block>
                     </UU5.BlockLayout.Tile>
                 </UU5.Bricks.Container>
-                </div >
-            ) : null;
+            </div >
+        ) : null;
 
-    //@@viewOff:render
-        },
-    })
-);
+        //@@viewOff:render
+    },
+});
 
 //@@viewOn:exports
 export { DataTile };
