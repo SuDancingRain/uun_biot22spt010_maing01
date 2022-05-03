@@ -1,5 +1,5 @@
 //@@viewOn:imports
-import { Utils, createVisualComponent, useSession, useState, useDataList } from "uu5g05";
+import { Utils, createVisualComponent, useSession, useState, useDataList, useMemo } from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import { withRoute } from "uu_plus4u5g02-app";
@@ -51,6 +51,12 @@ let Home = createVisualComponent({
       initialDtoIn: {},
     });
 
+    let { handlerMap, data } = weatherStationListData;
+    let dataToRender = useMemo(
+      () => data ? data.map((dataItem) => dataItem ? dataItem.data : dataItem) : [],
+      [data]
+    );
+console.log(dataToRender)
     //@@viewOff:private
 
     //@@viewOn:interface
@@ -85,7 +91,7 @@ let Home = createVisualComponent({
         }
 
         <UU5.Bricks.Container>
-          <Uu5Tiles.ControllerProvider data={weatherStationListData.data || []}>
+          <Uu5Tiles.ControllerProvider data={dataToRender}>
             <div css = "text-align:center">
             <UU5.Bricks.Button colorSchema={"green"} onClick={() => setSelectedWeatherStation({ data: {} })}>
               <UU5.Bricks.Icon icon={"mdi-plus"} />
@@ -97,8 +103,12 @@ let Home = createVisualComponent({
               tileMaxWidth={400}
               tileSpacing={8}
               rowSpacing={8}
+              onLoad={({ indexFrom }) => {
+                let pageInfo = { pageSize, pageIndex: indexFrom / pageSize };
+                handlerMap.loadNext({ pageInfo });
+              }}
             >
-              <DataTile />
+              {DataTile}
             </Uu5Tiles.Grid>
           </Uu5Tiles.ControllerProvider>
         </UU5.Bricks.Container>

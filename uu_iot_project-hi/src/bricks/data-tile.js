@@ -1,6 +1,6 @@
 //@@viewOn:imports
 import UU5 from "uu5g04";
-import { Utils, createVisualComponent, useState, useDataList, useDataObject} from "uu5g05";
+import { Utils, createVisualComponent, useState, useDataList, useDataObject, useMemo} from "uu5g05";
 import Uu5Elements from "uu5g05-elements";
 import Plus4U5Elements from "uu_plus4u5g02-elements";
 import Uu5Tiles from "uu5tilesg02";
@@ -28,7 +28,9 @@ const DataTile = createVisualComponent({
     //@@viewOff:statics
 
     //@@viewOn:propTypes
-    propTypes: {},
+    propTypes: {
+        dataToRender: UU5.PropTypes.object,
+    },
     //@@viewOff:propTypes
 
     //@@viewOn:defaultProps
@@ -44,9 +46,6 @@ const DataTile = createVisualComponent({
 
 
         const weatherStationListData = useDataList({
-            handlerMap: {
-                load: Calls.WeatherStation.list
-            },
             itemHandlerMap: {
                 update: Calls.WeatherStation.update,
                 delete: Calls.WeatherStation.delete
@@ -58,17 +57,18 @@ const DataTile = createVisualComponent({
             handlerMap: {
                 load: Calls.Data.view
             },
-            initialDtoIn: {code: props.code} ,
+            initialDtoIn: {code: props.dataToRender} ,
         });
 
         const weatherStationData = useDataObject({
             handlerMap:{
                 load: Calls.WeatherStation.get
             },
-            initialDtoIn: {id: weatherStationListData.id}
+            initialDtoIn: {id: props.dataToRender}
         })
 
-console.log(weatherStationListData);
+        console.log(props.dataToRender)
+console.log(weatherStationData);
         //@@viewOff:private
 
         //@@viewOn:interface
@@ -150,13 +150,13 @@ console.log(weatherStationListData);
 
                                 <UU5.Bricks.Button
                                     colorSchema="blue"
-                                    onClick={() => setSelectedWeatherStation(weatherStationListData.data)}
+                                    onClick={() => setSelectedWeatherStation(weatherStationData.data)}
                                 >
                                     <UU5.Bricks.Icon icon="mdi-pencil" />
                                 </UU5.Bricks.Button>
                                 <UU5.Bricks.Button
                                     colorSchema="red"
-                                    onClick={() => setWeatherStationToDelete(weatherStationListData.data)}
+                                    onClick={() => setWeatherStationToDelete(weatherStationData.data)}
                                 >
                                     <UU5.Bricks.Icon
                                         icon="mdi-close"

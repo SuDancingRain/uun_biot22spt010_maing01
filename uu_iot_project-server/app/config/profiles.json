@@ -35,19 +35,19 @@
       },
       "user/create": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities"]
+        "profileList": ["AwidLicenseOwner" ,"Authorities"]
       },
       "user/delete": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities"]
+        "profileList": ["AwidLicenseOwner","Authorities"]
       },
       "user/list": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities"]
+        "profileList": ["AwidLicenseOwner","Authorities"]
       },
       "user/get": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities"]
+        "profileList": ["AwidLicenseOwner","Authorities"]
       },
       "weatherStation/update": {
         "sysStateList": ["active"],
@@ -55,7 +55,7 @@
       },
       "user/update": {
         "sysStateList": ["active"],
-        "profileList": ["Authorities"]
+        "profileList": ["AwidLicenseOwner","Authorities"]
       },
       "data/view": {
         "sysStateList": ["active"],

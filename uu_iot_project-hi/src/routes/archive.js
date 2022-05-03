@@ -26,6 +26,7 @@ const Css = {
 //@@viewOff:css
 
 //@@viewOn:helpers
+
 //@@viewOff:helpers
 
 let Archive = WeatherStationDataList(
@@ -44,6 +45,8 @@ let Archive = WeatherStationDataList(
 
     render(props) {
       //@@viewOn:private
+      const selected = "";
+
       const weatherStationAvailableTags = [];
       if (props.data) {
         props.data.forEach((weatherStation) => {
@@ -64,8 +67,11 @@ let Archive = WeatherStationDataList(
         <div {...attrs}>
           <RouteBar />
           <UU5.Forms.TagSelect
+            value={""}
             availableTags={weatherStationAvailableTags}
-          />
+          >
+          </UU5.Forms.TagSelect>
+
 
         </div>
       );
